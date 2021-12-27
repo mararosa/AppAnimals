@@ -24,15 +24,6 @@ class ListFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.buttonDetail.setOnClickListener {
-            val action = ListFragmentDirections.actionListFragmentToDetailFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
-
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

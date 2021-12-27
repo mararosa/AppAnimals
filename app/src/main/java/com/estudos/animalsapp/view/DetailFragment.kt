@@ -1,4 +1,4 @@
- package com.estudos.animalsapp.view
+package com.estudos.animalsapp.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,10 +10,10 @@ import com.estudos.animalsapp.R
 import com.estudos.animalsapp.databinding.FragmentDetailBinding
 
 
- class DetailFragment : Fragment() {
+class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
-     private val binding get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +29,10 @@ import com.estudos.animalsapp.databinding.FragmentDetailBinding
         return view
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.buttonList.setOnClickListener {
-            val action = DetailFragmentDirections.actionDetailFragmentToListFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
+
 
 }
