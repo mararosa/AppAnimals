@@ -62,6 +62,14 @@ class ListFragment : Fragment() {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
         }
+
+        binding.refreshLayout.setOnRefreshListener {
+            binding.animalList.visibility = View.GONE
+            binding.listError.visibility = View.GONE
+            binding.loadingView.visibility = View.VISIBLE
+            viewModel.refresh()
+            binding.refreshLayout.isRefreshing = false
+        }
     }
 
     override fun onDestroyView() {
