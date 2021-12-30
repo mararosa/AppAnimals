@@ -11,7 +11,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     val loadError by lazy { MutableLiveData<Boolean>() }
     val loading by lazy { MutableLiveData<Boolean>() }
 
-    fun refresh() {
+    fun loadInfo() {
         getAnimals()
     }
 
@@ -25,8 +25,5 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
 
         val animalLits = arrayListOf(a1, a2, a3, a4, a5, a6)
 
-        animals.value = animalLits
-        loadError.value = false
-        loading.value = false
     }
 }

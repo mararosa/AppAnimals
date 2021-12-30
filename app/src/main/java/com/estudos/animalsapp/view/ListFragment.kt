@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import com.estudos.animalsapp.R
 import com.estudos.animalsapp.databinding.FragmentListBinding
 import com.estudos.animalsapp.model.Animal
 import com.estudos.animalsapp.viewmodel.ListViewModel
@@ -43,7 +41,6 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentListBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
@@ -52,24 +49,34 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
-        viewModel.animals.observe(this, animalListDataObserver)
-        viewModel.loading.observe(this, loadingLiveDataObserver)
-        viewModel.loadError.observe(this, errorLiveDataObserver)
-        viewModel.refresh()
+        watchObservers()
+        setAdapter()
+        setRefreshListener()
+    }
 
+    private fun setAdapter() {
         binding.animalList.apply {
             layoutManager = GridLayoutManager(context, 2)
             adapter = listAdapter
         }
+    }
 
+    private fun setRefreshListener() {
         binding.refreshLayout.setOnRefreshListener {
             binding.animalList.visibility = View.GONE
             binding.listError.visibility = View.GONE
             binding.loadingView.visibility = View.VISIBLE
-            viewModel.refresh()
+            viewModel.loadInfo()
             binding.refreshLayout.isRefreshing = false
         }
+    }
+
+    private fun watchObservers() {
+        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        viewModel.animals.observe(this, animalListDataObserver)
+        viewModel.loading.observe(this, loadingLiveDataObserver)
+        viewModel.loadError.observe(this, errorLiveDataObserver)
+        viewModel.loadInfo()
     }
 
     override fun onDestroyView() {

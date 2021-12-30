@@ -1,10 +1,8 @@
 package com.estudos.animalsapp.view
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.estudos.animalsapp.R
 import com.estudos.animalsapp.databinding.ItemAnimalBinding
 import com.estudos.animalsapp.model.Animal
 
