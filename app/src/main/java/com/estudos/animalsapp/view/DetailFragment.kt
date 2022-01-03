@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
@@ -15,15 +16,14 @@ import com.bumptech.glide.request.transition.Transition
 import com.estudos.animalsapp.R
 import com.estudos.animalsapp.databinding.FragmentDetailBinding
 import com.estudos.animalsapp.model.Animal
+import com.estudos.animalsapp.model.AnimalPalette
 import com.estudos.animalsapp.util.getProgressDrawable
 import com.estudos.animalsapp.util.loadImage
-import kotlinx.android.synthetic.main.item_animal.*
 
 
 class DetailFragment : Fragment() {
 
-    private var _binding: FragmentDetailBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var dataBinding: FragmentDetailBinding
 
     var animal: Animal? = null
 
@@ -31,9 +31,8 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,10 +42,8 @@ class DetailFragment : Fragment() {
             animal = DetailFragmentArgs.fromBundle(it).animalArgs
         }
 
+
         setupView()
-        animal?.imageUrl?.let {
-            setBackgroundColor(it)
-        }
     }
 
     private fun setBackgroundColor(imageUrl: String) {
@@ -58,30 +55,20 @@ class DetailFragment : Fragment() {
                     Palette.from(resource)
                         .generate() { palette ->
                             val intColor = palette?.lightMutedSwatch?.rgb ?: 0
-                            binding.animalDetailLayout.setBackgroundColor(intColor)
+                           dataBinding.palette = AnimalPalette(intColor)
                         }
                 }
+
                 override fun onLoadCleared(placeholder: Drawable?) {}
             })
     }
 
     private fun setupView() {
-        context?.let { context ->
-            with(binding) {
-                animalImage.loadImage(animal?.imageUrl, getProgressDrawable(context))
-                animalName.text = animal?.name
-                animalLocation.text = animal?.location
-                animalLifeSpan.text = animal?.lifeSpan
-                animalDiet.text = animal?.diet
-            }
+        dataBinding.animal = animal
+
+        animal?.imageUrl?.let {
+            setBackgroundColor(it)
         }
 
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-
 }

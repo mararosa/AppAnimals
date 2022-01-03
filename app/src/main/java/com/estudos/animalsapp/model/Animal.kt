@@ -37,3 +37,5 @@ data class Speed(
     val metric: String?,
     val imperial: String?
 ) : Parcelable
+
+data class AnimalPalette(var color: Int)
