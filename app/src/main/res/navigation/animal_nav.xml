@@ -21,5 +21,8 @@
         <action
             android:id="@+id/action_detailFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <argument
+            android:name="animalArgs"
+            app:argType="com.estudos.animalsapp.model.Animal" />
     </fragment>
 </navigation>
