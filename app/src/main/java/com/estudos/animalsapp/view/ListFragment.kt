@@ -66,7 +66,7 @@ class ListFragment : Fragment() {
             binding.animalList.visibility = View.GONE
             binding.listError.visibility = View.GONE
             binding.loadingView.visibility = View.VISIBLE
-            viewModel.loadInfo()
+            viewModel.refresh()
             binding.refreshLayout.isRefreshing = false
         }
     }
