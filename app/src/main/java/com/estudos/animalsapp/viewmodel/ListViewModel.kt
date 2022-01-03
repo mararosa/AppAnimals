@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.estudos.animalsapp.di.AppModule
+import com.estudos.animalsapp.di.CONTEXT_APP
 import com.estudos.animalsapp.di.DaggerViewModelComponent
+import com.estudos.animalsapp.di.TypeOfContext
 import com.estudos.animalsapp.model.Animal
 import com.estudos.animalsapp.model.AnimalApiService
 import com.estudos.animalsapp.model.ApiKey
@@ -27,6 +29,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
     lateinit var apiService: AnimalApiService
 
     @Inject
+    @field:TypeOfContext(CONTEXT_APP)
     lateinit var prefes: SharedPreferencesHelper
 
     private var invalidApiKey = false
