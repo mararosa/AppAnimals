@@ -88,6 +88,9 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:$mockitoVersion"
     testImplementation "android.arch.core:core-testing:1.1.1"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    // Test helpers for LiveData
+    androidTestImplementation "android.arch.core:core-testing:1.1.0"
 
+    compileOnly 'com.github.pengrad:jdk9-deps:1.0'
     compileOnly 'com.github.pengrad:jdk9-deps:1.0'
 }

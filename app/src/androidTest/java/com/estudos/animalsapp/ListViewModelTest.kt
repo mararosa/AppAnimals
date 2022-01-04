@@ -4,15 +4,19 @@ import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.estudos.animalsapp.di.AppModule
 import com.estudos.animalsapp.di.DaggerViewModelComponent
+import com.estudos.animalsapp.model.Animal
 import com.estudos.animalsapp.model.AnimalApiService
 import com.estudos.animalsapp.util.SharedPreferencesHelper
 import com.estudos.animalsapp.viewmodel.ListViewModel
 import io.reactivex.Scheduler
+import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.internal.schedulers.ExecutorScheduler
 import io.reactivex.plugins.RxJavaPlugins
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import java.util.concurrent.Executor
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -33,6 +37,8 @@ class ListViewModelTest {
 
     var listViewModel = ListViewModel(application, true)
 
+    private val key = "test key"
+
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
@@ -42,6 +48,22 @@ class ListViewModelTest {
             .prefsModule(PrefsModelTest(prefs))
             .build()
             .inject(listViewModel)
+    }
+
+    @Test
+    fun getAnimalsSuccess() {
+        Mockito.`when`(prefs.getApiKey()).thenReturn(key)
+        val animal = Animal("dog", null, null, null, null, null, null)
+        val animalList = listOf(animal)
+
+        val testSingle = Single.just(animalList)
+        Mockito.`when`(animalApiService.getAnimals(key)).thenReturn(testSingle)
+
+        listViewModel.loadInfo()
+
+        Assert.assertEquals(1, listViewModel.animals.value?.size)
+        Assert.assertEquals(false, listViewModel.loadError.value)
+        Assert.assertEquals(false, listViewModel.loading.value)
     }
 
     @Before
