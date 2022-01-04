@@ -9,19 +9,19 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
-class PrefsModule {
+open class PrefsModule {
 
     @Provides
     @Singleton
     @TypeOfContext(CONTEXT_APP)
-    fun provideSharePreferences(app: Application): SharedPreferencesHelper {
+    open fun provideSharePreferences(app: Application): SharedPreferencesHelper {
         return SharedPreferencesHelper(app)
     }
 
     @Provides
     @Singleton
     @TypeOfContext(CONTEXT_ACTIVITY)
-    fun provideActivitySharedPreferences(activity: AppCompatActivity): SharedPreferencesHelper {
+    open fun provideActivitySharedPreferences(activity: AppCompatActivity): SharedPreferencesHelper {
         return SharedPreferencesHelper(activity)
     }
 }
