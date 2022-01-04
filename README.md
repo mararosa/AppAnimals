@@ -8,7 +8,7 @@
 ### Architecture
 - MVVM
 
-###Frameworks and Libraries
+### Frameworks and Libraries
 - Retrofit
 - RxJava
 - Dagger2
@@ -17,6 +17,6 @@
 - Jetpack Pallete
 - Glide
 
-###Unit tests
+### Unit tests
 - Mockito
 
