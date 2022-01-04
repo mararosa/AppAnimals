@@ -6,6 +6,7 @@ import com.estudos.animalsapp.di.AppModule
 import com.estudos.animalsapp.di.DaggerViewModelComponent
 import com.estudos.animalsapp.model.Animal
 import com.estudos.animalsapp.model.AnimalApiService
+import com.estudos.animalsapp.model.ApiKey
 import com.estudos.animalsapp.util.SharedPreferencesHelper
 import com.estudos.animalsapp.viewmodel.ListViewModel
 import io.reactivex.Scheduler
@@ -21,6 +22,7 @@ import java.util.concurrent.Executor
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import java.lang.Exception
 
 class ListViewModelTest {
 
@@ -64,6 +66,22 @@ class ListViewModelTest {
         Assert.assertEquals(1, listViewModel.animals.value?.size)
         Assert.assertEquals(false, listViewModel.loadError.value)
         Assert.assertEquals(false, listViewModel.loading.value)
+    }
+
+    @Test
+    fun getAnimalsFailure() {
+        Mockito.`when`(prefs.getApiKey()).thenReturn(key)
+        val testSingle = Single.error<List<Animal>>(Throwable())
+        val keySingle = Single.just(ApiKey("Ok", key))
+
+        Mockito.`when`(animalApiService.getAnimals(key)).thenReturn(testSingle)
+        Mockito.`when`(animalApiService.getApiKey()).thenReturn(keySingle)
+
+        listViewModel.loadInfo()
+
+        Assert.assertEquals(null, listViewModel.animals.value)
+        Assert.assertEquals(false, listViewModel.loading.value)
+        Assert.assertEquals(true, listViewModel.loadError.value)
     }
 
     @Before
